@@ -25,6 +25,8 @@
     'data': [
         # 'security/ir.model.access.csv',
         'templates.xml',
+        'sale_order_modifications_report.xml',       
+        'views/report_tiquete_venta.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
