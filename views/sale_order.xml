@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+    <!-- Vista de formulario - Heredada - Invoice -->
+    <record id="sm_sale_order" model="ir.ui.view">
+      <field name="name">Inherit Form View - Module: Sale Order Modifications - Object: Sale Order</field>
+      <field name="model">sale.order</field>
+      <field name="inherit_id" ref="sale.view_order_form"/>
+      <field name="arch" type="xml">
+        <field colspan="2" name="partner_id" position="after">
+          <field attrs="{'readonly': ['|', ('state','!=', 'draft')]}" name="peso_lleno"/>
+          <field attrs="{'readonly': ['|', ('state','!=', 'draft')]}" name="peso_vacio"/>
+          <field attrs="{'readonly': ['|', ('state','!=', 'draft')]}" name="peso_neto"/>
+        </field>
+        <field colspan="2" name="validity_date" position="before">
+          <field attrs="{'readonly': ['|', ('state','!=', 'draft')]}" name="placa_vehiculo"/>
+        </field>
+        <field name="product_custom_attribute_value_ids" position="before">
+          <field name="imagen_lleno" widget="image"/>
+          <field name="imagen_vacio" widget="image"/>
+        </field>
+        <!-- Boton para tomar fotos -->
+        <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
+          <button class="oe_inline oe_stat_button" icon="fa-camera" name="action_take_picture" string="Tomar Fotos" type="object"/>
+        </xpath>
+
+        <field name="qty_delivered" position="attributes">
+          <attribute name="invisible">True</attribute>
+        </field>
+        <field name="qty_invoiced" position="attributes">
+          <attribute name="invisible">True</attribute>
+        </field>
+      </field>
+    </record>
+  </data>
+</odoo>
