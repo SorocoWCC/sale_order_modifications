@@ -61,37 +61,26 @@ class sale_order(models.Model):
             res= self.env['product.template'].search([['name', '=', 'Chatarra'], ['default_code', '=', 'CH']])
             self.order_line.create({'product_id': str(res.id), 'price_unit':str(res.list_price), 'order_id' : self.id, 'name': '[CH] Chatarra','calcular': True, 'date_planned': str(fields.Date.today()), 'product_qty': 1, 'product_uom': str(res.uom_po_id.id)})
             
-
-        camara_romana = self.env['camara'].search([['tipo', '=', 'romana']])
-        camara_indicador = self.env['camara'].search([['tipo', '=', 'indicador']])
-        print("==============")
-        print(camara_romana)
-        print(camara_indicador)
-        print(camara_romana[0].ip)
-        print(camara_romana[0].usuario)
-        print(camara_romana[0].contrasena)
-        imagen_vivo = IM({"ip": camara_romana[0].ip, "user": camara_romana[0].usuario, "passw": camara_romana[0].contrasena}, {"ip": camara_indicador[0].ip, "user": camara_indicador[0].usuario, "passw": camara_indicador[0].contrasena})
-        '''
         for line in self.order_line:
             camara_romana = self.env['camara'].search([['tipo', '=', 'romana']])
             camara_indicador = self.env['camara'].search([['tipo', '=', 'indicador']])
-            imagen_vivo = IM({"ip": camara_romana[0].ip, "user": camara_romana[0].usuario, "passw": camara_romana[0].contrasena}, {"ip": camara_indicador[0].ip, "user": camara_indicador[0].usuario, "passw": camara_indicador[0].contrasena})
+            imagen_vivo = IM({"ip": camara_romana[0].ip, "user": camara_romana[0].usuario, "passwd": camara_romana[0].contrasena}, {"ip": camara_indicador[0].ip, "user": camara_indicador[0].usuario, "passwd": camara_indicador[0].contrasena})
             
             # No se adjuntan fotos a los productos especiales
             if line.product_id.name != 'Basura Chatarra' and line.product_id.name != 'Prestamo' and line.product_id.name != 'Rebajo' :
-                try :
-                    res = imagen_vivo.get_image()
 
+                res = imagen_vivo.get_image()
+               
+                try:
                     if not line.imagen_lleno :
-                        line.imagen_lleno = res
+                        line.imagen_lleno = res["image"]
                         break
                     elif not line.imagen_vacio :
-                        line.imagen_vacio = res
+                        line.imagen_vacio = res["image"]
                         break
-                except:    
+                except:
                     self.env.user.notify_danger(message='Error al obtener las imagenes.')
-
-        '''
+        
 '''
     @api.multi
     def button_confirm(self):
