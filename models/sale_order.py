@@ -59,7 +59,7 @@ class sale_order(models.Model):
         if len(self.order_line) == 0:
             # Incluye linea de Chatarra
             res= self.env['product.template'].search([['name', '=', 'Chatarra'], ['default_code', '=', 'CH']])
-            self.order_line.create({'product_id': str(res.id), 'price_unit':str(res.list_price), 'order_id' : self.id, 'name': '[CH] Chatarra','calcular': True, 'date_planned': str(fields.Date.today()), 'product_qty': 1, 'product_uom': str(res.uom_po_id.id)})
+            #self.order_line.create({'product_id': str(res.id), 'price_unit':str(res.list_price), 'order_id' : self.id, 'name': '[CH] Chatarra','calcular': True, 'date_planned': str(fields.Date.today()), 'product_qty': 1, 'product_uom': str(res.uom_po_id.id)})
             
         for line in self.order_line:
             camara_romana = self.env['camara'].search([['tipo', '=', 'romana']])
@@ -72,11 +72,11 @@ class sale_order(models.Model):
                 res = imagen_vivo.get_image()
                
                 try:
-                    if not line.imagen_lleno :
-                        line.imagen_lleno = res["image"]
-                        break
-                    elif not line.imagen_vacio :
+                    if not line.imagen_vacio :
                         line.imagen_vacio = res["image"]
+                        break
+                    elif not line.imagen_lleno :
+                        line.imagen_lleno = res["image"]
                         break
                 except:
                     self.env.user.notify_danger(message='Error al obtener las imagenes.')
