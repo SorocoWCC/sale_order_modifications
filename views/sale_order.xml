@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
   <data>
-    <!-- Vista de formulario - Heredada - Invoice -->
+    <!-- Vista de formulario - Heredada - Sale Order -->
     <record id="sm_sale_order" model="ir.ui.view">
       <field name="name">Inherit Form View - Module: Sale Order Modifications - Object: Sale Order</field>
       <field name="model">sale.order</field>
@@ -32,5 +32,32 @@
         </field>
       </field>
     </record>
+
+    <!-- Vista de Arbol - Heredada - Sale Order -->
+    <record id="sm_sale_order_containers_tree" model="ir.ui.view">
+      <field name="name">Inherit Tree View - Module: Sale Order Containers - Object: Sale Order</field>
+      <field name="model">sale.order</field>
+      <field name="inherit_id" ref="sale.view_quotation_tree_with_onboarding"/>
+      <field name="arch" type="xml">
+        <field colspan="2" name="partner_id" position="after">
+          <field name="numero_contenedor"/>
+          <field name="estado"/>
+        </field>
+      </field>
+    </record>
+
+        <!-- Vista de Arbol - Heredada - Sale Order -->
+    <record id="sm_sale_order_inherit_tree" model="ir.ui.view">
+      <field name="name">Inherit Tree View - Module: Sale Order - Object: Sale Order</field>
+      <field name="model">sale.order</field>
+      <field name="inherit_id" ref="sale.view_quotation_tree_with_onboarding"/>
+      <field name="arch" type="xml">
+        <field colspan="2" name="partner_id" position="after">
+          <field name="invoice_status"/>
+        </field>
+      </field>
+    </record>
+
+
   </data>
 </odoo>
